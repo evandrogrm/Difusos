@@ -1,28 +1,27 @@
 package com.difusos.cadastros;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
+
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JComboBox;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 public class Main {
 	
@@ -41,6 +40,7 @@ public class Main {
 					UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 					Main window = new Main();
 					window.mainFrame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -50,6 +50,7 @@ public class Main {
 	
 	public Main() {
 		initialize();
+//		preencheCombos();
 	}
 	
 	private void initialize() {
@@ -114,14 +115,6 @@ public class Main {
 		lblX.setBounds(10, 83, 10, 14);
 		mainFrame.getContentPane().add(lblX);
 		
-		JButton btnCalcularE = new JButton("Calcular \"Muito\"");
-		btnCalcularE.setBounds(126, 113, 127, 23);
-		mainFrame.getContentPane().add(btnCalcularE);
-		
-		JButton btnCalcularalgo = new JButton("Calcular \"Algo\"");
-		btnCalcularalgo.setBounds(126, 147, 127, 23);
-		mainFrame.getContentPane().add(btnCalcularalgo);
-		
 		cbVariaveis = new JComboBox<>();
 		cbVariaveis.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
@@ -130,14 +123,13 @@ public class Main {
 		});
 		cbVariaveis.setBounds(30, 56, 110, 20);
 		mainFrame.getContentPane().add(cbVariaveis);
+		if(cbVariaveis.isShowing()){
+			preencheCombos();
+		}
 		
 		cbTermos = new JComboBox<>();
 		cbTermos.setBounds(165, 56, 127, 20);
 		mainFrame.getContentPane().add(cbTermos);
-		
-		JButton btnCalculardeFato = new JButton("Calcular \"De Fato\"");
-		btnCalculardeFato.setBounds(126, 181, 127, 23);
-		mainFrame.getContentPane().add(btnCalculardeFato);
 		
 		JLabel lblVarivel = new JLabel("Vari\u00E1vel");
 		lblVarivel.setBounds(30, 41, 46, 14);
@@ -146,15 +138,6 @@ public class Main {
 		JLabel lblTermo = new JLabel("Termo");
 		lblTermo.setBounds(165, 41, 46, 14);
 		mainFrame.getContentPane().add(lblTermo);
-		
-		JButton btnCarregarDados = new JButton("Carregar Dados");
-		btnCarregarDados.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				preencheCombos();
-			}
-		});
-		btnCarregarDados.setBounds(302, 55, 110, 23);
-		mainFrame.getContentPane().add(btnCarregarDados);
 		
 		try {
 			pathPrincipal = Paths.get(System.getenv("APPDATA")+"/DifusosEvandro");
@@ -171,41 +154,82 @@ public class Main {
 				FileWriter arq = new FileWriter(pathTermos.toString());
 				arq.close();
 			}
-			preencheCombos();
 			
+			preencheCombos();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Erro ao carregar dados");
 		}
-		
 	}
 
 	public void preencheCombos() {
-		ArrayList<String> listaDeVariaveis = preencheLista(pathVariaveis, "VARIAVEL");
-		ArrayList<String> listaDeTermos = preencheLista(pathTermos, "TERMOS");
-		List<String> listaVarAdicionadas = new ArrayList<>();
-		for (int i = 0; i < cbVariaveis.getItemCount(); i++) {
-			listaVarAdicionadas.add(cbVariaveis.getItemAt(i).toString());
-		}
-		List<String> listaTerAdicionados = new ArrayList<>();
-		for (int i = 0; i < cbTermos.getItemCount(); i++) {
-			listaTerAdicionados.add(cbTermos.getItemAt(i).toString());
-		}
-		for (String str : listaDeVariaveis) {
-			if(!listaVarAdicionadas.contains(str)){
-				cbVariaveis.addItem(str);
+		try {
+			/**  REMOVE VARIAVEIS E TERMOS */
+			cbVariaveis.removeAllItems();
+			cbTermos.removeAllItems();
+			/**  BUSCA VARIAVEIS E TERMOS DOS ARQUIVOS */
+			ArrayList<String> listaDeVariaveis = preencheVariaveis();
+			ArrayList<String> listaDeTermos = preencheTermos();
+			/**  PREENCHE COMBOS COM OS DADOS */
+			//ADICIONA NOS COMBOS
+			for (String str : listaDeVariaveis) {
+				if (!listaDeVariaveis.isEmpty() && !str.equals("")) {
+					cbVariaveis.addItem(str);
+				}
 			}
-		}
-		for (String str : listaDeTermos) {
-			if(!listaTerAdicionados.contains(str)){
-				cbTermos.addItem(str);
+			for (String str : listaDeTermos) {
+				if (!listaDeTermos.isEmpty() && !str.equals("")) {
+					cbTermos.addItem(str);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Erro ao carregar dados");
 		}
-		for (int i = 0; i < cbTermos.getItemCount(); i++) {
-			if(cbTermos.getItemAt(i).toString().equals("")){
-				cbTermos.removeItem(i);
+	}
+
+	private ArrayList<String> preencheTermos() {
+		ArrayList<String> lista = new ArrayList<>();
+		if(!cbVariaveis.isShowing()){
+			return lista;
+		}
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(pathTermos.toFile().getAbsolutePath()));
+			String linha = "";
+			String str[] = new String[10];
+			while ((linha = br.readLine()) != null) {
+				str = linha.split(";");
+				if (cbVariaveis.isShowing() && cbVariaveis.getItemAt(0).equals(str[0])) {
+					lista.add(str[1]);
+				}
 			}
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return lista;
+	}
+
+	private ArrayList<String> preencheVariaveis() {
+		ArrayList<String> lista = new ArrayList<>();
+		if(!cbVariaveis.isShowing()){
+			return lista;
+		}
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(pathVariaveis.toFile().getAbsolutePath()));
+			String linha = "";
+			String str[] = new String[10];
+			while ((linha = br.readLine()) != null) {
+				str = linha.split(";");
+				if (!lista.contains(str[0])) {
+					lista.add(str[0]);
+				}
+			}
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lista;
 	}
 
 	private ArrayList<String> preencheLista(Path path, String TIPO) {
@@ -221,7 +245,7 @@ public class Main {
 						lista.add(str[0]);
 					}
 				} else if(TIPO.equals("TERMOS")){
-					if(cbVariaveis.isShowing() && cbVariaveis.getItemAt(cbVariaveis.getSelectedIndex()).equals(str[0])){
+					if(cbVariaveis.isShowing() && cbVariaveis.getItemAt(0).equals(str[0])){
 						lista.add(str[1]);
 					}
 				}
