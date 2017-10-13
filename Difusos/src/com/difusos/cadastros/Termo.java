@@ -121,7 +121,6 @@ public class Termo {
 				Main m = new Main();
 				termoFrame.dispose();
 				m.getMainFrame().setVisible(true);
-				m.preencheCombos();
 			}
 		});
 		btnTermoCad.setBounds(67, 113, 89, 23);

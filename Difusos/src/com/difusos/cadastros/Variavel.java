@@ -1,12 +1,7 @@
 package com.difusos.cadastros;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -16,7 +11,12 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 public class Variavel {
 	
@@ -75,7 +75,7 @@ public class Variavel {
 	private void initialize() {
 		variavelFrame = new JFrame();
 		variavelFrame.setTitle("Cadastro de Vari\u00E1veis");
-		variavelFrame.setBounds(100, 100, 330, 145);
+		variavelFrame.setBounds(100, 100, 330, 130);
 		variavelFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		variavelFrame.getContentPane().setLayout(null);
 		
@@ -122,7 +122,6 @@ public class Variavel {
 				Main m = new Main();
 				variavelFrame.dispose();
 				m.getMainFrame().setVisible(true);
-				m.preencheCombos();
 			}
 		});
 		btnCadastrar.setBounds(107, 67, 89, 23);

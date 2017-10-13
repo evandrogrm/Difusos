@@ -19,7 +19,7 @@ public class Dados {
 	public float calculaPertinencia(Variaveis variavel, float x) {
 		preencheVariaveis();
 		for (Termos t : listaDeTermos) {
-			if (t.getVariavel() == variavel) {
+			if (t.getVariavel().getNome().equals(variavel.getNome())) {
 				if (x >= t.getNucleoIni() && x <= t.getNucleoFim()) {
 					return 1;
 				} else if (x > t.getSuporteFim() || x < t.getSuporteIni()) {
@@ -36,6 +36,7 @@ public class Dados {
 
 	private void preencheVariaveis() {
 		try {
+			listaDeVariaveis = new ArrayList<>();
 			Path pathVariaveis = Paths.get(System.getenv("APPDATA")+"/DifusosEvandro/variaveis.txt");
 			BufferedReader brVariaveis = new BufferedReader(new FileReader(pathVariaveis.toFile().getAbsolutePath()));
 			String linhaVariaveis="";
@@ -44,14 +45,15 @@ public class Dados {
 				strv = linhaVariaveis.split(";");
 				listaDeVariaveis.add(new Variaveis(strv[0],strv[1],strv[2]));
 			}
+			listaDeTermos = new ArrayList<>();
 			Path pathTermos = Paths.get(System.getenv("APPDATA")+"/DifusosEvandro/termos.txt");
 			BufferedReader brTermos = new BufferedReader(new FileReader(pathTermos.toFile().getAbsolutePath()));
 			String linhaTermos="";
 			String[] strt = new String[4];
 			while((linhaTermos = brTermos.readLine()) != null){
 				strt = linhaTermos.split(";");
-				listaDeTermos.add(new Termos(buscaVariavel(strt[0]), Float.parseFloat(strt[1]),
-						Float.parseFloat(strt[2]), Float.parseFloat(strt[3]), Float.parseFloat(strt[4])));
+				listaDeTermos.add(new Termos(buscaVariavel(strt[0]), strt[1], Float.parseFloat(strt[2]),
+						Float.parseFloat(strt[3]), Float.parseFloat(strt[4]), Float.parseFloat(strt[5])));
 			}
 			brVariaveis.close();
 			brTermos.close();
@@ -73,4 +75,5 @@ public class Dados {
 		JOptionPane.showMessageDialog(null, "Variável não encontrada");
 		return null;
 	}
+	
 }
