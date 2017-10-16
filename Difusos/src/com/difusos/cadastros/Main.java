@@ -31,11 +31,6 @@ public class Main {
 					UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 					Main window = new Main();
 					window.mainFrame.setVisible(true);
-//					BuscarDadosTxt b = new BuscarDadosTxt();
-//					String[] variaveis = new String[2];
-//					variaveis = b.listaDeNomesVariaveis();
-//					String[][] termos = new String[2][3];
-//					termos = b.listaDeNomesTermos();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

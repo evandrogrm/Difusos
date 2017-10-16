@@ -2,14 +2,14 @@ package com.difusos.bc;
 
 import javax.swing.table.AbstractTableModel;
 
-public class TableModelBC extends AbstractTableModel {
+public class TableModelBCENTAO extends AbstractTableModel {
 	
 	private static final long serialVersionUID = 1L;
-	private String[] columnNames = {"Variável","Concentração","Termo","TP Condição"};
-	private Object[][] data = {{"","","",""}};
+	private String[] columnNames = {"Variável Objetivo","Resultado"};
+	private Object[][] data = {{"",""}};
 	
 	public int getColumnCount() {
-        return 4;
+        return 2;
     }
 
     public int getRowCount() {
@@ -29,12 +29,7 @@ public class TableModelBC extends AbstractTableModel {
     }
     
     public void setValueAt(Object value, int row, int col) {
-        data[row][col] = value;
-        if(col==0){
-        	BC obj = new BC();
-        	obj.inserirTermos(String.valueOf(value));
-        }
+    	data[row][col] = value;
     }
-	
 
 }
