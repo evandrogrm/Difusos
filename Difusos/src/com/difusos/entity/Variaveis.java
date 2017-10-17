@@ -11,6 +11,8 @@ public class Variaveis {
 		this.universalFim = universalFim;
 	}
 
+	public Variaveis() {}
+
 	public String getNome() {
 		return nome;
 	}
