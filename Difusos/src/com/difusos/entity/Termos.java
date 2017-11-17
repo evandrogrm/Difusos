@@ -3,17 +3,17 @@ package com.difusos.entity;
 public class Termos {
 	
 	private Variaveis variavel;
-	private String nome;
 	private float nucleoIni,nucleoFim, suporteIni, suporteFim;
+	private String nome;
 	
 	public Termos(Variaveis variavel, String nome, float nucleoIni, float nucleoFim, float suporteIni, float suporteFim) {
 		super();
 		this.variavel = variavel;
+		this.setNome(nome);
 		this.nucleoIni = nucleoIni;
 		this.nucleoFim = nucleoFim;
 		this.suporteIni = suporteIni;
 		this.suporteFim = suporteFim;
-		this.nome = nome;
 	}
 	public float getNucleoIni() {
 		return nucleoIni;

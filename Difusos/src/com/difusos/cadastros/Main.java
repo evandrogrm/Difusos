@@ -14,15 +14,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import com.difusos.bc.BC;
-
 public class Main {
 	
 	private JFrame mainFrame;
 	Path pathPrincipal;
 	Path pathVariaveis;
 	Path pathTermos;
-	Path pathBC;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -56,7 +53,7 @@ public class Main {
 		JMenu mnCadastros = new JMenu("Cadastros");
 		menuBar.add(mnCadastros);
 		
-		JMenuItem mntmVarivel = new JMenuItem("Vari\u00E1vel");
+		JMenuItem mntmVarivel = new JMenuItem("Variável");
 		mntmVarivel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Variavel v = new Variavel();
@@ -76,56 +73,30 @@ public class Main {
 		});
 		mnCadastros.add(mntmTermo);
 		
-		JMenuItem mntmBc = new JMenuItem("BC");
-		mntmBc.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				BC bc = new BC();
-				mainFrame.dispose();
-				bc.getFrameBC().setVisible(true);
-			}
-		});
-		mnCadastros.add(mntmBc);
-		
-		JMenu mnEditar = new JMenu("Editar");
-		menuBar.add(mnEditar);
-		
-		JMenuItem mntmVarivel_1 = new JMenuItem("Vari\u00E1vel");
-		mnEditar.add(mntmVarivel_1);
-		
-		JMenuItem mntmTermo_1 = new JMenuItem("Termo");
-		mnEditar.add(mntmTermo_1);
-		
-		JMenu mnGerar = new JMenu("Gerar");
-		menuBar.add(mnGerar);
-		
-		JMenuItem mntmGrfico = new JMenuItem("Gr\u00E1fico");
-		mnGerar.add(mntmGrfico);
 		try {
 			pathPrincipal = Paths.get(System.getenv("APPDATA")+"/DifusosEvandro");
 			pathVariaveis = Paths.get(pathPrincipal.toFile().getAbsolutePath()+"/variaveis.txt");
 			pathTermos = Paths.get(pathPrincipal.toFile().getAbsolutePath()+"/termos.txt");
-			pathBC = Paths.get(pathPrincipal.toFile().getAbsolutePath()+"/bc.txt");
 			if (!pathPrincipal.toFile().exists()) {
 				pathPrincipal.toFile().mkdirs();
 			}
 			if (!pathVariaveis.toFile().exists()) {
-				FileWriter arq = new FileWriter(pathVariaveis.toFile().getAbsolutePath());
+				FileWriter arq = new FileWriter(pathVariaveis.toString());
 				arq.close();
 			}
 			if (!pathTermos.toFile().exists()) {
-				FileWriter arq = new FileWriter(pathTermos.toFile().getAbsolutePath());
+				FileWriter arq = new FileWriter(pathTermos.toString());
 				arq.close();
 			}
-			if (!pathBC.toFile().exists()) {
-				FileWriter arq = new FileWriter(pathBC.toFile().getAbsolutePath());
-				arq.close();
-			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Erro ao carregar dados");
 		}
+		
 	}
 
+	
 	public JFrame getMainFrame() {
 		return mainFrame;
 	}

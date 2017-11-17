@@ -2,16 +2,15 @@ package com.difusos.entity;
 
 public class Variaveis {
 	
-	private String nome, universalIni, universalFim;
+	private String nome, universalIni, universalFim, isObjetivo;
 		
-	public Variaveis(String nome, String universalIni, String universalFim) {
+	public Variaveis(String nome, String universalIni, String universalFim, String isObjetivo) {
 		super();
 		this.nome = nome;
 		this.universalIni = universalIni;
 		this.universalFim = universalFim;
+		this.isObjetivo = isObjetivo;
 	}
-
-	public Variaveis() {}
 
 	public String getNome() {
 		return nome;
@@ -35,6 +34,14 @@ public class Variaveis {
 
 	public void setUniversalFim(String universalFim) {
 		this.universalFim = universalFim;
+	}
+
+	public String getIsObjetivo() {
+		return isObjetivo;
+	}
+
+	public void setIsObjetivo(String isObjetivo) {
+		this.isObjetivo = isObjetivo;
 	}
 	
 }

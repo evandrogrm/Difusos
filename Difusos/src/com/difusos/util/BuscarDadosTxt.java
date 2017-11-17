@@ -22,7 +22,7 @@ public class BuscarDadosTxt {
 			String[] strv = new String[4];
 			while((linhaVariaveis = brVariaveis.readLine()) != null){
 				strv = linhaVariaveis.split(";");
-				Variaveis v = new Variaveis(strv[0], strv[1], strv[2]);
+				Variaveis v = new Variaveis(strv[0], strv[1], strv[2], strv[3]);
 				variaveis.add(v);
 			}
 			brVariaveis.close();
@@ -44,8 +44,8 @@ public class BuscarDadosTxt {
 				strt = linhaTermos.split(";");
 				for (Variaveis v : variaveis) {
 					if(v.getNome().equals(strt[0])){
-						Termos t = new Termos(v, strt[1], Float.parseFloat(strt[2]), Float.parseFloat(strt[3]),
-								Float.parseFloat(strt[4]), Float.parseFloat(strt[5]));
+						Termos t = new Termos(v, strt[1],Float.parseFloat(strt[2]), Float.parseFloat(strt[3]), Float.parseFloat(strt[4]),
+								Float.parseFloat(strt[5]));
 						termos.add(t);
 						break;
 					}
