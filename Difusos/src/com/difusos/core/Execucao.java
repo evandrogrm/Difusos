@@ -18,7 +18,7 @@ public class Execucao {
 	
 	BuscarDadosTxt txtBusca = new BuscarDadosTxt();
 	PreencherDadosTxt txtPreenche = new PreencherDadosTxt();
-	Dados dados;
+	Calculo calc = new Calculo();
 
 	public Execucao() {
 	}
@@ -67,47 +67,84 @@ public class Execucao {
 		return retorno;
 	}
 
-	public void agregar() {
-		//TODO AQUI
-		List<Ativados> listaAtivados = txtBusca.getAtivados();
-		List<Ativados> listaClone = new ArrayList<>();
-		boolean min = txtBusca.getAgregacaoConfigMinimo();
-		boolean entrou = false;
+	public boolean agregar() {
+		List<Ativados> listaAtivados    = txtBusca.getAtivados();
+		List<Ativados> listaClone 	    = new ArrayList<>();
+		List<Ativados> listaDuplicados  = new ArrayList<>();
+		boolean        contemDuplicados = false;
 		for (Ativados a : listaAtivados) {
-			entrou = false;
+			contemDuplicados = false;
+			if(listaDuplicados.contains(a)){
+				continue;
+			}
 			for (Ativados a2 : listaAtivados) {
-				if(a != a2 && a.getTermo().equals(a2.getTermo())){
-					entrou = true;
-					float x = a.getPertinencia();
-					float y = a2.getPertinencia();
-					if(min){
-						if(x < y){
-							listaClone.add(a);
-						}else{
-							listaClone.add(a2);
-						}
-					}else{
-						if(x > y){
-							listaClone.add(a);
-						}else{
-							listaClone.add(a2);
-						}
-					}
+				boolean iguais		 = a == a2;
+				boolean termosIguais = a.getTermo().equals(a2.getTermo());
+				boolean contemA      = listaDuplicados.contains(a); 
+				boolean contemA2     = listaDuplicados.contains(a2); 
+				if(!iguais && termosIguais){
+					contemDuplicados = true;
+					if(!contemA)
+						listaDuplicados.add(a);
+					if(!contemA2)
+						listaDuplicados.add(a2);
 				}
 			}
-			if(!entrou){
+			if(!contemDuplicados){
 				listaClone.add(a);
 			}
 		}
-		for (Ativados a1 : listaClone) {
-			for (Ativados a2 : listaClone) {
-				if(a1 != a2 && a1.getTermo().equals(a2.getTermo())){
-					agregar();
+		if (!listaDuplicados.isEmpty()) {
+			boolean min = txtBusca.getAgregacaoConfigMinimo();
+			List<String> termosDuplicados = new ArrayList<>();
+			for (Ativados d : listaDuplicados) {
+				for (Ativados d2 : listaDuplicados) {
+					boolean iguais = d == d2;
+					boolean termosIguais = d.getTermo().equals(d2.getTermo());
+					boolean contemNaLista = termosDuplicados.contains(d.getTermo());
+					if(contemNaLista){
+						break;
+					}
+					if(!iguais && termosIguais){
+						termosDuplicados.add(d.getTermo());
+						break;
+					}
 				}
 			}
+			List<Ativados> duplicadosUmTermo = new ArrayList<>();
+			for (String t : termosDuplicados) {
+				for (Ativados a : listaDuplicados) {
+					if(a.getTermo().equals(t)){
+						duplicadosUmTermo.add(a);
+					}
+				}
+				Ativados a2 = duplicadosUmTermo.get(0);
+				for (Ativados d2 : duplicadosUmTermo) {
+					if(a2 != d2){
+						a2 = removeDuplicados(a2, d2, min);
+					}
+				}
+				duplicadosUmTermo = new ArrayList<>();
+				listaClone.add(a2);
+			}
 		}
-		
 		txtPreenche.agregaBaseDeConhecimento(listaClone);
+		return true;
+	}
+
+	private Ativados removeDuplicados(Ativados d, Ativados d2, boolean min) {
+		float x = d.getPertinencia();
+		float y = d2.getPertinencia();
+		if (min) {
+			if (x <= y) {
+				return d;
+			}
+		} else {
+			if (x >= y) {
+				return d;
+			}
+		}
+		return d2;
 	}
 
 	public void pertinencias() {
@@ -117,7 +154,6 @@ public class Execucao {
 		BuscarDadosTxt txtBusca = new BuscarDadosTxt();
 		List<DadosVar> dadosVariaveis = txtBusca.listadeDados();
 		float valorVariavel = 0;
-		dados = new Dados();
 		for (Variaveis v : listaDeVariaveis) {
 			if(v.getIsObjetivo().equals("1")){
 				break;
@@ -132,7 +168,7 @@ public class Execucao {
 				if (t.getVariavel().getNome().equals(v.getNome())) {
 					String variavel = v.getNome();
 					String termo = t.getNome();
-					float pertinencia = dados.calculaPertinencia(t, valorVariavel);
+					float pertinencia = calc.calculaPertinencia(t, valorVariavel);
 					listaDePertinencias.add(new Pertinencia(variavel,termo,pertinencia));
 				}
 			}
@@ -155,6 +191,16 @@ public class Execucao {
 				String nomeVariavel = condicao.getVariavelCondicao();
 				Termos t            = txtBusca.getTermo(nomeTermo, nomeVariavel);
 				pertinencia         = txtBusca.getPertinencia(t);
+				String concentracao = condicao.getConcentracao();
+				if(concentracao.equals("MUITO")){
+					pertinencia = calc.muito(pertinencia);
+				} else if(concentracao.equals("ALGO")){
+					pertinencia = calc.algo(pertinencia);
+				} else if(concentracao.equals("DE FATO")){
+					pertinencia = calc.deFato(pertinencia);
+				} else if(concentracao.equals("MUITO MUITO")){
+					pertinencia = calc.algo(pertinencia);
+				} 
 				pertinencias.add(pertinencia);
 				if(condicao.getTipoAgregacao().equals("E")){
 					E = true;

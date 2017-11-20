@@ -148,8 +148,8 @@ public class Termo {
 		final DefaultTableModel model = new DefaultTableModel(); 
 		model.addColumn("Nome Variável");
 		model.addColumn("Nome Termo");
-		model.addColumn("Termo Ini");
-		model.addColumn("Termo Fim");
+		model.addColumn("Núcleo Ini");
+		model.addColumn("Núcleo Fim");
 		model.addColumn("Suporte Ini");
 		model.addColumn("Suporte Fim");
 		

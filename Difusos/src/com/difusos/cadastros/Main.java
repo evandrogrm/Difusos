@@ -185,7 +185,7 @@ public class Main {
 		
 		JButton btnCalcularCentride = new JButton("Calcular Centróide");
 		btnCalcularCentride.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {//TODO A
+			public void actionPerformed(ActionEvent e) {
 				exec.pertinencias();
 				exec.ativar();
 				exec.agregar();
