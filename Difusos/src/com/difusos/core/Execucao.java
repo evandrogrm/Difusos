@@ -68,6 +68,7 @@ public class Execucao {
 	}
 
 	public void agregar() {
+		//TODO AQUI
 		List<Ativados> listaAtivados = txtBusca.getAtivados();
 		List<Ativados> listaClone = new ArrayList<>();
 		boolean min = txtBusca.getAgregacaoConfigMinimo();
