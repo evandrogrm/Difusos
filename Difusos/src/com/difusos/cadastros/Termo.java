@@ -213,7 +213,7 @@ public class Termo {
 						fw.write(comboBox.getItemAt(comboBox.getSelectedIndex())+";"
 								+txtTermoNome.getText()+";"
 								+txtTermoNucleoIni.getText()+";"+txtTermoNucleoFim.getText()+";"
-								+txtTermoSuporteIni.getText()+";"+txtTermoSupoteFim.getText()+";");
+								+txtTermoSuporteIni.getText()+";"+txtTermoSupoteFim.getText());
 						fw.write(System.getProperty("line.separator"));
 						fw.close();
 						String nomeVariavel = comboBox.getSelectedItem().toString();

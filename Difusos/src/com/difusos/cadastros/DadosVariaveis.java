@@ -92,7 +92,7 @@ public class DadosVariaveis {
 		btnIncluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					List<DadosVar> listadeDados = txtBusca.listadeDados();
+					List<DadosVar> listadeDados = txtBusca.listaDeDados();
 					boolean naoCadastrado = true;
 					for (DadosVar d : listadeDados) {
 						if(d.getV().getNome().equals(comboBox.getSelectedItem().toString())){
@@ -168,7 +168,7 @@ public class DadosVariaveis {
 		dadosFrame.getContentPane().add(btnVoltar);
 		
 		try {
-			List<DadosVar> listadeDados = txtBusca.listadeDados();
+			List<DadosVar> listadeDados = txtBusca.listaDeDados();
 			for (DadosVar d : listadeDados) {
 				model.addRow(new Object[]{d.getV().getNome(),d.getValor()});
 				table.setModel(model);

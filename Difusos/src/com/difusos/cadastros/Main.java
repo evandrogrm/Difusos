@@ -100,7 +100,7 @@ public class Main {
 		JButton btnCalcularPertinencia = new JButton("Calcular Pertinência");
 		btnCalcularPertinencia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				exec.pertinencias();
+				exec.calcularPertinencias();
 			}
 		});
 		btnCalcularPertinencia.setBounds(10, 90, 134, 23);
@@ -120,7 +120,6 @@ public class Main {
 		JButton btnCalcularAtivao = new JButton("Calcular Ativação");
 		btnCalcularAtivao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				exec.pertinencias();
 				exec.ativar();
 			}
 		});
@@ -130,8 +129,6 @@ public class Main {
 		JButton btnCalcularAgregao = new JButton("Calcular Agregação");
 		btnCalcularAgregao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				exec.pertinencias();
-				exec.ativar();
 				exec.agregar();
 			}
 		});
@@ -186,9 +183,6 @@ public class Main {
 		JButton btnCalcularCentride = new JButton("Calcular Centróide");
 		btnCalcularCentride.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				exec.pertinencias();
-				exec.ativar();
-				exec.agregar();
 				float resultado = exec.calcularCentroide();
 				JOptionPane.showMessageDialog(null, resultado);
 			}
@@ -220,6 +214,20 @@ public class Main {
 		lblCentride.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblCentride.setBounds(10, 210, 221, 14);
 		mainFrame.getContentPane().add(lblCentride);
+		
+		JButton btnCalcularTudo = new JButton("Calcular Tudo");
+		btnCalcularTudo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exec.calcularPertinencias();
+				exec.ativar();
+				exec.agregar();
+				float resultado = exec.calcularCentroide();
+				JOptionPane.showMessageDialog(null, resultado);
+			}
+		});
+		btnCalcularTudo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnCalcularTudo.setBounds(10, 270, 170, 23);
+		mainFrame.getContentPane().add(btnCalcularTudo);
 		
 		try {
 			pathPrincipal = Paths.get(System.getenv("APPDATA")+"/DifusosEvandro");

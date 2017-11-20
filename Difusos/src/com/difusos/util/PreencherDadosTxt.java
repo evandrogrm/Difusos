@@ -41,7 +41,7 @@ public class PreencherDadosTxt {
 		
 	}
 
-	public void ativaBaseDeConhecimento(List<Ativados> listaDeAtivados) {
+	public void preencheAtivacao(List<Ativados> listaDeAtivados) {
 		try {
 			Path pathAtivacao   = Paths.get(System.getenv("APPDATA")+"/DifusosEvandro/ativacao.txt");
 			FileWriter fw       = new FileWriter(pathAtivacao.toFile().getAbsolutePath());
@@ -55,7 +55,7 @@ public class PreencherDadosTxt {
 		}
 	}
 
-	public void agregaBaseDeConhecimento(List<Ativados> ativados2) {
+	public void preencheAgregacao(List<Ativados> ativados2) {
 		try {
 			Path pathAgregacao = Paths.get(System.getenv("APPDATA")+"/DifusosEvandro/agregacao.txt");
 			FileWriter fw = new FileWriter(pathAgregacao.toFile().getAbsolutePath());

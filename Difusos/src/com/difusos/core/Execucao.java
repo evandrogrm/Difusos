@@ -24,13 +24,13 @@ public class Execucao {
 	}
 
 	public float calcularCentroide() {
-		List<Agregados> listaDeAgregados = txtBusca.getAgregados();
-		List<Termos> listaDeTermos = txtBusca.listaDeTermos();
-		float pertinenciaTermo = 0;
-		float nucleoInicial = 0;
-		float nucleoFinal = 0;
-		float result = 0;
-		float resultDivisao = 0;
+		List<Agregados> listaDeAgregados = txtBusca.listaDeAgregados();
+		List<Termos>    listaDeTermos    = txtBusca.listaDeTermos();
+		float           pertinenciaTermo = 0;
+		float 			nucleoInicial    = 0;
+		float 			nucleoFinal 	 = 0;
+		float 			result 			 = 0;
+		float 			resultDivisao    = 0;
 		
 		for (Agregados agregados : listaDeAgregados) {
 			for (Termos termos : listaDeTermos) {
@@ -41,7 +41,7 @@ public class Execucao {
 					break;
 				}
 			}
-			result += somarTermo(nucleoInicial, nucleoFinal, pertinenciaTermo);
+			result		  += somarTermo(nucleoInicial, nucleoFinal, pertinenciaTermo);
 			resultDivisao += dividirTermo(nucleoInicial, nucleoFinal, pertinenciaTermo);
 		}
 		result /= resultDivisao;
@@ -67,8 +67,8 @@ public class Execucao {
 		return retorno;
 	}
 
-	public boolean agregar() {
-		List<Ativados> listaAtivados    = txtBusca.getAtivados();
+	public void agregar() {
+		List<Ativados> listaAtivados    = txtBusca.listaDeAtivados();
 		List<Ativados> listaClone 	    = new ArrayList<>();
 		List<Ativados> listaDuplicados  = new ArrayList<>();
 		boolean        contemDuplicados = false;
@@ -121,18 +121,17 @@ public class Execucao {
 				Ativados a2 = duplicadosUmTermo.get(0);
 				for (Ativados d2 : duplicadosUmTermo) {
 					if(a2 != d2){
-						a2 = removeDuplicados(a2, d2, min);
+						a2 = escolheDuplicado(a2, d2, min);
 					}
 				}
 				duplicadosUmTermo = new ArrayList<>();
 				listaClone.add(a2);
 			}
 		}
-		txtPreenche.agregaBaseDeConhecimento(listaClone);
-		return true;
+		txtPreenche.preencheAgregacao(listaClone);
 	}
 
-	private Ativados removeDuplicados(Ativados d, Ativados d2, boolean min) {
+	private Ativados escolheDuplicado(Ativados d, Ativados d2, boolean min) {
 		float x = d.getPertinencia();
 		float y = d2.getPertinencia();
 		if (min) {
@@ -147,12 +146,12 @@ public class Execucao {
 		return d2;
 	}
 
-	public void pertinencias() {
+	public void calcularPertinencias() {
 		List<Variaveis> listaDeVariaveis = txtBusca.listaDeVariaveis();
 		List<Termos> listaDeTermos = txtBusca.listaDeTermos();
 		List<Pertinencia> listaDePertinencias = new ArrayList<>();
 		BuscarDadosTxt txtBusca = new BuscarDadosTxt();
-		List<DadosVar> dadosVariaveis = txtBusca.listadeDados();
+		List<DadosVar> dadosVariaveis = txtBusca.listaDeDados();
 		float valorVariavel = 0;
 		for (Variaveis v : listaDeVariaveis) {
 			if(v.getIsObjetivo().equals("1")){
@@ -178,12 +177,12 @@ public class Execucao {
 	}
 
 	public void ativar() {
-		Calculo calculo     = new Calculo();
-		List<Regras> regras = txtBusca.listadeRegras();
-		List<Float> pertinencias = new ArrayList<>();
+		Calculo        calculo     	   = new Calculo();
+		List<Regras>   regras 		   = txtBusca.listaDeRegras();
+		List<Float>    pertinencias    = new ArrayList<>();
 		List<Ativados> listaDeAtivados = new ArrayList<>();
-		float pertinencia = 0;
-		boolean E = true;
+		float          pertinencia     = 0;
+		boolean        E 			   = true;
 		for (Regras r : regras) {
 			List<Condicao> condicoes = r.getC();
 			for (Condicao condicao : condicoes) {
@@ -221,7 +220,7 @@ public class Execucao {
 			pertinencias = new ArrayList<>();
 		}
 		
-		txtPreenche.ativaBaseDeConhecimento(listaDeAtivados);
+		txtPreenche.preencheAtivacao(listaDeAtivados);
 		
 	}
 

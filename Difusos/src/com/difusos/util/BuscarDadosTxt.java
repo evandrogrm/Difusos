@@ -66,9 +66,9 @@ public class BuscarDadosTxt {
 		return termos;
 	}
 	
-	public List<DadosVar> listadeDados(){
+	public List<DadosVar> listaDeDados(){
 		List<Variaveis> variaveis = listaDeVariaveis();
-		List<DadosVar> listadeDados = new ArrayList<>();
+		List<DadosVar> listaDeDados = new ArrayList<>();
 		try {
 			Path pathDadosVar = Paths.get(System.getenv("APPDATA") + "/DifusosEvandro/dadosVariaveis.txt");
 			BufferedReader brDados = new BufferedReader(new FileReader(pathDadosVar.toFile().getAbsolutePath()));
@@ -79,7 +79,7 @@ public class BuscarDadosTxt {
 				for (Variaveis v : variaveis) {
 					if(v.getNome().equals(strt[0])){
 						DadosVar d = new DadosVar(v, Float.parseFloat(strt[1]));
-						listadeDados.add(d);
+						listaDeDados.add(d);
 					}
 				}
 			}
@@ -87,33 +87,28 @@ public class BuscarDadosTxt {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return listadeDados;
+		return listaDeDados;
 	}
 	
-	public float pertinenciaDaVariavel(Termos t){
-		
-		return 0;
-	}
-
-	public List<Regras> listadeRegras() {
+	public List<Regras> listaDeRegras() {
 		List<Regras> listadeRegras = new ArrayList<>();
 		List<Condicao> condicoes = new ArrayList<>();
 		try {
 			Path pathBaseConhecimento = Paths.get(System.getenv("APPDATA") + "/DifusosEvandro/bc.txt");
 			if(pathBaseConhecimento.toFile().exists()){
-				BufferedReader brBC = new BufferedReader(new FileReader(pathBaseConhecimento.toFile().getAbsolutePath()));
+				BufferedReader br = new BufferedReader(new FileReader(pathBaseConhecimento.toFile().getAbsolutePath()));
 				String linha = "";
 				String[] str = new String[5];
-				while ((linha = brBC.readLine()) != null) {
+				while ((linha = br.readLine()) != null) {
 					str = linha.split(";");
 					Condicao c = null;
-					Consequencia cq = null;
+					Consequencia consequencia = null;
 					if(linha.startsWith("00")){
 						c = new Condicao(str[1], str[2], str[3], str[4]);
 						condicoes.add(c);
 					}else if(linha.startsWith("05")){
-						cq = new Consequencia(str[1], str[2]);
-						Regras r = new Regras(condicoes,cq);
+						consequencia = new Consequencia(str[1], str[2]);
+						Regras r = new Regras(condicoes,consequencia);
 						listadeRegras.add(r);
 						condicoes = new ArrayList<>();
 					}else{
@@ -121,7 +116,7 @@ public class BuscarDadosTxt {
 					}
 					
 				}
-				brBC.close();
+				br.close();
 			}else{
 				JOptionPane.showMessageDialog(null, "Base de conhecimento não incluida na pasta\n"+
 													pathBaseConhecimento.toFile().getAbsolutePath());
@@ -231,7 +226,7 @@ public class BuscarDadosTxt {
 		return true;
 	}
 
-	public List<Ativados> getAtivados() {
+	public List<Ativados> listaDeAtivados() {
 		List<Ativados> lista = new ArrayList<>();
 		try {
 			Path pathAtivados = Paths.get(System.getenv("APPDATA") + "/DifusosEvandro/ativacao.txt");
@@ -252,7 +247,7 @@ public class BuscarDadosTxt {
 		return lista;
 	}
 
-	public List<Agregados> getAgregados() {
+	public List<Agregados> listaDeAgregados() {
 		List<Agregados> listadeAgregados = new ArrayList<>();
 		try {
 			Path pathAgregados = Paths.get(System.getenv("APPDATA") + "/DifusosEvandro/agregacao.txt");
