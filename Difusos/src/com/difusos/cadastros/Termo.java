@@ -20,7 +20,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
@@ -217,7 +216,7 @@ public class Termo {
 								+txtTermoSuporteIni.getText()+";"+txtTermoSupoteFim.getText()+";");
 						fw.write(System.getProperty("line.separator"));
 						fw.close();
-						String nomeVariavel = comboBox.getSelectedItem().toString();    comboBox.setSelectedIndex(0);
+						String nomeVariavel = comboBox.getSelectedItem().toString();
 						String nomeTermo    = txtTermoNome.getText();                   txtTermoNome.setText("");
 						String nucleoIni    = txtTermoNucleoIni.getText();              txtTermoNucleoIni.setText("");
 						String nucleoFim    = txtTermoNucleoFim.getText();              txtTermoNucleoFim.setText("");
